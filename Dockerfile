@@ -15,8 +15,8 @@ COPY . .
 # Create .env from template for build (will be replaced at runtime)
 RUN cp .env.exemple .env
 
-# Build the application
-RUN npm run build:prod
+# Build the application (skip prerendering for Docker build)
+RUN npx nx build --configuration production --skip-nx-cache -- --prerender=false
 
 # Stage 2: Production
 FROM node:20-alpine AS production
