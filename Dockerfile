@@ -12,6 +12,9 @@ RUN npm install
 # Copy source code
 COPY . .
 
+# Create .env from template for build (will be replaced at runtime)
+RUN cp .env.exemple .env
+
 # Build the application
 RUN npm run build:prod
 
@@ -37,7 +40,7 @@ RUN apk add --no-cache wget
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S angular -u 1001
+  adduser -S angular -u 1001
 
 USER angular
 
