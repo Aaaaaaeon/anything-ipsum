@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ RUN cp .env.exemple .env
 RUN npm run build:prod
 
 # Stage 2: Production
-FROM node:20-alpine AS production
+FROM node:20-slim AS production
 
 WORKDIR /app
 
@@ -36,11 +36,11 @@ COPY --from=builder /app/dist ./dist
 COPY .env.exemple ./.env.exemple
 
 # Install wget for health checks
-RUN apk add --no-cache wget
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-  adduser -S angular -u 1001
+RUN groupadd -g 1001 nodejs && \
+  useradd -u 1001 -g nodejs -s /bin/sh angular
 
 USER angular
 
