@@ -58,6 +58,10 @@ jobs:
     if: github.ref == 'refs/heads/master'
 
     steps:
+      - name: Convert repository name to lowercase
+        id: repo
+        run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
@@ -66,7 +70,7 @@ jobs:
           key: ${{ secrets.VPS_KEY }}
           script: |
             # Pull de la nouvelle image
-            docker pull ghcr.io/${{ github.repository }}:latest
+            docker pull ghcr.io/${{ env.IMAGE_NAME }}:latest
 
             # Arrêt et suppression du conteneur existant (si présent)
             docker stop my-app || true
@@ -78,4 +82,4 @@ jobs:
               -p 80:4000 \
               -e MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }} \
               --restart unless-stopped \
-              ghcr.io/${{ github.repository }}:latest
+              ghcr.io/${{ env.IMAGE_NAME }}:latest
