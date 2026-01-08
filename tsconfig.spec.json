@@ -7,12 +7,10 @@
     "esModuleInterop": true,
     "types": [
       "jasmine",
-      "jest",
       "node"
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts"
+    "src/**/*.ts"
   ]
 }
