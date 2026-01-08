@@ -14,7 +14,13 @@ import {join} from 'node:path';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 
-const browserDistFolder = join(import.meta.dirname, '../browser');
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const browserDistFolder = join(__dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();

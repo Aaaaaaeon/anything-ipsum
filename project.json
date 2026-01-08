@@ -28,7 +28,6 @@
         "ssr": {
           "entry": "src/server.ts"
         },
-        "prerender": false,
         "outputPath": "dist/anything-ipsum"
       },
       "configurations": {
